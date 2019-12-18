@@ -35,9 +35,39 @@ def get_digits(layer, layers):
             two +=1
     return one*two
 
+def compose_image(layers):
+    index_layer, index_element, index_string = 0,0,0
+    color = []
+    while index_element < len(layers[0]):
+        current_color = []
+        if layers[index_layer][index_element][index_string] == '0':
+            current_color.append('B')
+            index_layer = 0
+            index_string +=1
+        elif layers[index_layer][index_element][index_string] == '1':
+            current_color.append('W')
+            index_layer = 0
+            index_string +=1
+        elif layers[index_layer][index_element][index_string] == '2':
+            index_layer += 1
+
+        if index_string == len(layers[0][0]):
+            index_element +=1
+            index_string = 0
+            color.append(current_color)
+            current_color = []
+
+    return color
+
+
+
 if __name__ == "__main__":
     layers = get_piece(25,6)
     layer = get_layer(layers)
-    solution = get_digits(layer, layers)
-    print(layer)
-    print(solution)
+    solution1 = get_digits(layer, layers)
+    print('Part 1:', solution1)
+    solution2 = compose_image(layers)
+
+    print('Part 2:')
+    for x in solution2:
+        print(x)
